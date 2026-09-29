@@ -40,12 +40,43 @@ to compare the two approaches.
 ## Experiment 1 — Exploratory Data Analysis
 
 **Question:**
+What does the interaction data look like and what characteristics
+could affect collaborative filtering?
 
 **What I checked:**
+- Number of users, movies and ratings
+- Missing values
+- Rating range
+- Sparsity
+- Ratings per user
+- Ratings per movie
+- Rating distribution
 
 **Observations:**
+The dataset contains 6,040 users, 3,706 movies and 1,000,209
+ratings. There are no missing values and ratings range from 1 to 5.
+
+The user-movie matrix has approximately 95.53% sparsity.
+The number of ratings per user and per movie is highly
+right-skewed, with most users and movies having relatively few
+interactions and a smaller number having many interactions.
+
+The rating distribution is also uneven, with ratings of 3, 4 and 5
+being much more common than ratings of 1 and 2.
+
+**Mistakes i made:**
+Firstly i did ratings.head() to get only 5 rows so i thought that the user_id 
+is same like serial number so i can delete it.. later when i printed the entire set
+i found out it gives how many ratings each user gives.
+
+My initial plot didnt represent data cleanly so i used Xlim to limit the range of values
+
 
 **Decision / implication:**
+The high sparsity and uneven interaction distribution should be
+considered when implementing both collaborative filtering
+approaches. The same data split and evaluation protocol will be
+used for both methods.
 
 ---
 
