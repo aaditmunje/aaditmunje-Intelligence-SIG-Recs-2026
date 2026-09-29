@@ -126,21 +126,51 @@ from similar users helps improve rating predictions.
 ## Experiment 3 — Matrix Factorization
 
 **Approach:**
+Matrix Factorization with 20 latent factors, user/movie biases,
+and gradient descent optimization. The model was trained from
+scratch using the training ratings.
 
 **Latent dimensions:**
+20
 
 **Optimization method:**
+Gradient descent
 
 **Learning rate:**
+0.005
 
 **Regularization:**
+0.02
 
 **Why these choices were made:**
+A small number of latent factors keeps the model simple while
+allowing it to learn hidden relationships between users and
+movies. I used Gradient descent so that the matrix factorization
+procedure could be implemented and understood from scratch.
+
+**Mistakes i made:**
+1) Initially i used Pytorch because of my familiarity with working
+with neural networks. I defined the model and loss function and used
+Adam to optimize it. But then the README explicitly hints at implement MF ourselves
+
+2) I faced a lot of errors with actually writing the code for gradient descent.
+I knew all the mathematical notations but kept on mixing it up. So after writing my
+baseline code, I had to give it to an LLM to debug the errors.
 
 **Result:**
 
-**Observations:**
+| Method | RMSE | MAE |
+|---|---:|---:|
+| Global Mean | 1.120 | 0.936 |
+| Memory-Based CF | 1.043 | 0.819 |
+| Matrix Factorization | 0.884 | 0.698 |
 
+**Observations:**
+Matrix Factorization achieved lower RMSE and MAE than both the
+global mean baseline and the memory-based approach on the same
+test set. This suggests that learning latent user and movie
+representations was more effective than relying only on local
+user similarities for this dataset and split.
 ---
 
 ## Experiment 4 — Comparison / Ablation
