@@ -206,3 +206,10 @@ capture broader patterns in sparse interaction data.
 So there is no single method that is better than the other; it just depends on the
 dataset/ parameters provided and our final objective.
 
+NOTE - Due to being short on time i couldnt optimize both the methods as much as i
+would have liked using a lot of different methods. So i tried to get a more general 
+comparison between the average values and the values found after training. Doing further
+feature engineering, and especially in the Matrix Factorization experimenting with more
+epochs, lr, regularizers than what i did already would have given even better results to 
+further strenghthen my arguments.
+
