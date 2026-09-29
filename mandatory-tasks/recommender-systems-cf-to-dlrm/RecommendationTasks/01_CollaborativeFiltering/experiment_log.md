@@ -166,11 +166,13 @@ baseline code, I had to give it to an LLM to debug the errors.
 | Matrix Factorization | 0.884 | 0.698 |
 
 **Observations:**
+
 Matrix Factorization achieved lower RMSE and MAE than both the
 global mean baseline and the memory-based approach on the same
 test set. This suggests that learning latent user and movie
 representations was more effective than relying only on local
 user similarities for this dataset and split.
+
 ---
 
 ## Experiment 4 — Comparison / Ablation
