@@ -83,16 +83,43 @@ used for both methods.
 ## Experiment 2 — Memory-Based Collaborative Filtering
 
 **Approach:**
+User-user collaborative filtering using cosine similarity.
+For each user, the 20 most similar users were used to predict
+ratings for unseen movies using a similarity-weighted average.
 
 **Similarity measure:**
+Cosine similarity.
 
 **Neighbourhood size:**
+20 neighbours.
 
 **Why these choices were made:**
+Cosine similarity provides a simple way to compare users based
+on their rating patterns. A neighbourhood of 20 was chosen as
+an initial baseline without making the similarity search
+unnecessarily expensive.
+
+**Mistakes i made:**
+1) I was already familiar with the Pearson correlation (r factor) because
+ I had used it in a ML hackathon hosted by IET 2 days ago, so i tried using that
+but it took way too much time to run as the data was like 6040 users * 3683 movies.
+
+2) Then i thought about KNNs to find similarity (nearest neighbours). I didnt think
+of this before as i thought KNNs are unsupervised but thats KNN Clustering. 
+Nearnest neightbours was perfect for finding similarities.
+
 
 **Result:**
 
+| Method | RMSE | MAE |
+|---|---:|---:|
+| Global Mean Baseline | 1.120 | 0.936 |
+| Memory-Based CF | 1.043 | 0.819 |
+
 **Observations:**
+The memory-based approach performed better than the global
+mean baseline on both RMSE and MAE, showing that information
+from similar users helps improve rating predictions.
 
 ---
 
