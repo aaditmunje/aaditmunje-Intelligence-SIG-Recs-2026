@@ -175,29 +175,34 @@ user similarities for this dataset and split.
 
 ---
 
-## Experiment 4 — Comparison / Ablation
-
-**Question:**
-
-**Change tested:**
-
-**Result:**
-
-**Observation:**
-
----
-
 ## Final Comparison
 
-| Method | RMSE | MAE | Precision@K | Recall@K |
-|---|---:|---:|---:|---:|
-| Memory-based CF | | | | |
-| Matrix Factorization | | | | |
+| Method | RMSE | MAE |
+|---|---:|---:|
+| Global Mean | 1.120 | 0.936 |
+| Memory-Based CF | 1.043 | 0.819 |
+| Matrix Factorization | 0.884 | 0.698 |
 
 ### Conclusion
 
-**When does memory-based CF work well?**
+Through this task, I learnt about what it actually means to
+learn the intricacies of data. When I actually ran all the cells,
+the first correlation I thought of was model vs instance-based learning
+that I had studied. In this case, memory-based CF was like memorizing
+(rote learning), and Matrix was like generalizing (understanding).
+That connection to what I had learnt was interesting.
 
-**When does matrix factorization work well?**
+Memory-based CF is useful when recommendations can be made from
+similar users and their existing interactions.
 
-**Main lesson:**
+Matrix Factorization learns latent representations of users and
+movies instead of relying directly on a local neighbourhood.
+
+The main takeaway is that the choice between the approaches
+depends on the dataset and the recommendation setting. Memory-based
+methods are simple and interpretable, while model-based methods can
+capture broader patterns in sparse interaction data.
+
+So there is no single method that is better than the other; it just depends on the
+dataset/ parameters provided and our final objective.
+
