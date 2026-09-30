@@ -18,10 +18,57 @@ The dataset also contains a lot of missing values in both numerical and categori
 
 The categorical features have very different cardinalities, ranging from only a few categories to more than 13,000 categories. This makes embeddings more suitable than directly one-hot encoding all categorical features. OHE will make very sparse representations (lots of 0s) and thus inaccurate predictions.
 
-Try with simple neural networks then try making more complex structutres to learn the intricacies.
-
 ## Initial Preprocessing Plan
 
 Numerical features will be median-imputed and standardized. My thought process was for std. median might be better as its less affected by extreme values.
 
 Categorical missing values will be treated as a separate category. Categorical values will be converted to integer IDs for embedding layers.
+
+## Experiment 1 — NN-1 Baseline
+
+### Architecture
+
+- 26 categorical features with 16-dimensional embeddings
+- 13 numerical features
+- Embeddings and numerical features concatenated
+- Dense layers: 128 → 64
+- ReLU activation
+- Sigmoid output
+- Adam optimizer
+- Batch size: 256
+- Epochs: 8
+
+### Validation Results
+
+| Metric | Score |
+|---|---:|
+| ROC-AUC | 0.599 |
+| PR-AUC | 0.052 |
+| Log Loss | 0.322 |
+| Accuracy | 0.938 |
+| F1 | 0.064 |
+
+### Observation
+
+My first model clearly showed overfitting. From epoch 1 to epoch 8 i could clearly tell the difference in the train AUC increasing and val AUC decreasing.
+
+Training AUC increased from 0.565 in the first epoch to 0.995 by the eighth epoch, while validation AUC decreased from 0.717 to 0.567.
+
+Training loss continued to decrease while validation loss increased.
+
+The accuracy is around 94% but that is obviously the case here cause the CTR is only about 3% so its showing almost all the people didnt click throguh which
+makes sense. Its not a good metric.
+
+### Decision
+
+The baseline was overfitting, so the next experiment I thought should be firstly keep the same architecture but try reduce overfitting.
+
+From what i know overfitting cal be reduced by 2 things- 
+1) Increasing data - Like data augmentation in CNNs / getting more rows in ANNs - (NOT EASIBBLE HERE)
+2) Reducing complexity : Early Stopping, Add dropout.
+
+Trying with simple neural networks then try making more complex structutres to learn the intricacies.
+
+
+
+
