@@ -22,17 +22,17 @@ of a click.
 
 ### Core Architecture
 
-There are 26 categorical features for which we create embeddings. Then we add "Pairwise feature interactions",
-and numerical features. Then we go from the Bottom MLP to the top MLP to finally get the probability of CTR.
+We create embeddings for 26 categorical features. Then we add "Pairwise feature interactions",
+and numerical features. Then we go from the Bottom MLP to the top MLP to get the CTR probability.
 
 ## Implementation Plan
 
 - 13 numerical features
 - 26 categorical features
 - Embedding dimension: 16
-- Bottom MLP: 13 → 64 → 16
+- Bottom MLP: 13 to 64 to 16
 - 26 categorical embeddings + 1 dense representation = 27 feature vectors
 - Pairwise dot-product interactions
 - Number of pairwise interactions: 27 × 26 / 2 = 351
-- Top MLP: 367 → 128 → 64 → 1
+- Top MLP: 367 to 128 to 64 to 1
 - Sigmoid output for click probability
