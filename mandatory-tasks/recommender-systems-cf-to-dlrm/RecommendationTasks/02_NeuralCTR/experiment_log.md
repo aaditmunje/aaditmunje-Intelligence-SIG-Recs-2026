@@ -69,6 +69,73 @@ From what i know overfitting cal be reduced by 2 things-
 
 Trying with simple neural networks then try making more complex structutres to learn the intricacies.
 
+## Experiment 2 — NN-2: Dropout + Early Stopping
+
+### Changes from NN-1
+
+The same embedding and dense architecture was retained, but
+Dropout with a rate of 0.3 was added after both dense layers.
+
+Early stopping was also used based on validation ROC-AUC.
+
+### Validation Results
+
+| Metric | Score |
+|---|---:|
+| ROC-AUC | 0.717 |
+| PR-AUC | 0.079 |
+| Log Loss | 0.132 |
+| Accuracy | 0.968 |
+| F1 @ 0.5 | 0.000 |
+
+### Observation
+
+Adding dropout and early stopping substantially improved validation
+performance compared with the original model.
+
+However, using the default 0.5 classification threshold resulted in
+no positive predictions and therefore an F1 score of 0.
+
+Since the dataset has a low click rate, the 0.5 threshold is not
+necessarily appropriate. A threshold will therefore be selected
+using the validation set by maximizing F1.
+
+### Decision
+
+NN-2 currently performs better than NN-1 based on ROC-AUC, PR-AUC
+and log loss. The validation-selected threshold will be used for
+the final F1/precision/recall calculation.
+
+## Model Selection
+
+NN-2 was selected based on validation performance.
+
+Compared with NN-1, it achieved higher ROC-AUC and PR-AUC and substantially lower log loss. The addition of dropout and early stopping also reduced the overfitting observed in the baseline model.
+
+The test set was not used during model selection.
+
+## Conclusion
+
+The vanilla neural network was able to learn useful patterns from
+the numerical and categorical advertising features.
+
+The initial model showed strong overfitting, with training ROC-AUC
+increasing while validation ROC-AUC decreased across epochs.
+
+Adding dropout and early stopping improved validation performance.
+NN-2 achieved a validation ROC-AUC of 0.717, PR-AUC of 0.079 and
+log loss of 0.132.
+
+The dataset is highly imbalanced, with only around 3.2% positive
+clicks. Therefore, accuracy alone is not a sufficient measure of
+performance. The PR-AUC and ROC-AUC provide more useful measures of
+the model's ability to distinguish between clicks and non-clicks.
+
+NN-2 was selected using the validation set, while the supplied test
+data was kept separate from model selection.
+
+(If time permits will try to add L1, L2 regularizers to try better the results).
+
 
 
 
