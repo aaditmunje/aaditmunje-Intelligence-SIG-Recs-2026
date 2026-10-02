@@ -12,28 +12,28 @@ that i read - Seq2Seq Learning with nn (-Sutskever et al. 2014).
 
 ## Dataset/ Preprocessing
 
-English → French parallel corpus.
-232,825 training pairs, 890 validation, 8,597 test.
-10,000-word vocabulary for each language.
-<PAD>, <SOS>, <EOS>, <UNK> special tokens.
-Maximum sequence length = 50.
-Batch size = 64.
+- English → French parallel corpus.
+- 232,825 training pairs, 890 validation, 8,597 test.
+- 10,000-word vocabulary for each language.
+- <PAD>, <SOS>, <EOS>, <UNK> special tokens.
+- Maximum sequence length = 50.
+- Batch size = 64.
 
 ## Architecture
 
-RNN encoder.
-RNN decoder.
-Embedding dimension = 256.
-Hidden dimension = 512.
-Encoder compresses the source sentence into its final hidden state.
-Decoder uses that hidden state to generate the French sentence token by token.
-No attention.
+- RNN encoder.
+- RNN decoder.
+- Embedding dimension = 256.
+- Hidden dimension = 512.
+- Encoder compresses the source sentence into its final hidden state.
+- Decoder uses that hidden state to generate the French sentence token by token.
+- No attention.
 
 ## Model Size
 
-Encoder: 2,954,240 parameters
-Decoder: 8,084,240 parameters
-Total: 11,038,480 parameters
+- Encoder: 2,954,240 parameters
+- Decoder: 8,084,240 parameters
+- Total: 11,038,480 parameters
 
 ## Experiments (till now)
 
@@ -51,9 +51,9 @@ input vocab as 10,000. (Still training on 232,825) training pairs.
 
 ## What you want us to investigate: 
 
-How well a basic fixed-context encoder-decoder translates.
-Whether it struggles with longer sentences.
-Whether rare/unknown words cause problems.
+- How well a basic fixed-context encoder-decoder translates.
+- Whether it struggles with longer sentences.
+- Whether rare/unknown words cause problems.
 
 
 
