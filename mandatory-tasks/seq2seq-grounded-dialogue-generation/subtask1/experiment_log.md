@@ -55,6 +55,33 @@ input vocab as 10,000. (Still training on 232,825) training pairs.
 - Whether it struggles with longer sentences.
 - Whether rare/unknown words cause problems.
 
+# EXPERIMENT 1
+
+1. I firstly experimented on a cpu (by mistake) with 232k pairs and 11M para (it was not finishing lol) .
+Then I switched to a T4 GPU, since I had experience using it before (IEEE DocForge project).
+
+2. Then i tried for 1 epoch, but it took around 5 mins (too long). So i changed the fundamental way i was
+applying teacher forcing. Intead of 1 at a time for all 48 tokens i tried processing all of them together
+(not individually).
+
+OBSERVATIONS : 
+
+- RNN trained for 4 epochs.
+- Training loss decreased/stabilized around 4.01.
+- RNN BLEU score on the test set: 0.00286 (the observed behavior).
+- Test sentences mostly produced the same output: et je pense que c'est un peu plus de <UNK> .
+- The same output was also produced for different training examples, showing that the model was not effectively conditioning its prediction on the input sentence.
+- <UNK> appeared in the generated output, indicating difficulty handling words outside the limited vocabulary.
+- The results show the limitation of a basic RNN encoder-decoder with a fixed-length context, especially for longer sentences.
+- These results motivate comparing the RNN with an LSTM encoder-decoder in Experiment 2.
+
+- I genuinely ran into a lot of errors when using RNNs, not just because of the core bottleneck, but even optimising the dataset up to this point took forever.
+  Every training epoch took so long that atleast for the time being ive decided to stop trying to optimize, record the observations, and move ahead with LSTMS and
+  hopefully get better results (3:30 AM insights lol).
+
+  
+  
+
 
 
 
