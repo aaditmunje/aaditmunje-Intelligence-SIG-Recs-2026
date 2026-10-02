@@ -62,15 +62,71 @@ did not produce positive predictions at that threshold. Since the
 dataset is highly imbalanced, accuracy alone is not sufficient to
 judge performance.
 
-I will try to reove the explicit pairwise interaction component 
+I will try to remove the explicit pairwise interaction component 
 while keeping the remaining architecture similar. 
-This shoud help determine how much the interaction component contributes
+This should help determine how much the interaction component contributes
 to DLRM's performance.
+
+## 6. Ablation Study — Removing Explicit Interactions
+
+To measure the contribution of the explicit interaction component,
+a second model was trained with the same embedding dimension,
+bottom MLP and top MLP structure, but without calculating pairwise
+dot-product interactions.
+
+Instead, the feature representations were directly concatenated.
+
+### Results
+
+| Metric | DLRM | DLRM - No Interactions |
+|---|---:|---:|
+| ROC-AUC | 0.664 | 0.674 |
+| PR-AUC | 0.073 | 0.074 |
+| Log Loss | 0.145 | 0.147 |
+| F1 @ 0.5 | 0.000 | 0.000 |
+
+### Observation
+
+Removing the explicit interactions slightly increased ROC-AUC and
+PR-AUC on the validation set, while DLRM achieved slightly lower
+log loss.
+
+Therefore, the explicit interaction component did not provide a
+clear improvement on this particular dataset and validation split.
+
+This suggests that the interaction module is not automatically
+beneficial for every CTR dataset and that the usefulness of explicit
+feature interactions depends on the data and model configuration.
 - 26 categorical features
 - Embedding dimension: 16
 - Bottom MLP: 13 to 64 to 16
 - 26 categorical embeddings + 1 dense representation = 27 feature vectors
 - Pairwise dot-product interactions
 - Number of pairwise interactions: 27 × 26 / 2 = 351
+
+- ## 7. Task 02 vs Task 03
+
+| Model | ROC-AUC | PR-AUC | Log Loss |
+|---|---:|---:|---:|
+| NN-1 | 0.599 | 0.052 | 0.322 |
+| NN-2 | 0.717 | 0.079 | 0.132 |
+| DLRM | 0.664 | 0.073 | 0.145 |
+| DLRM - No Interactions | 0.674 | 0.074 | 0.147 |
+
+NN-2 achieved the strongest validation performance among the models
+tested.
+
+The original neural network showed substantial overfitting, while
+adding dropout and early stopping substantially improved its
+validation performance.
+
+DLRM also improved considerably over the original NN-1 model.
+However, it did not outperform the regularized NN-2 on this
+validation split.
+
+The ablation showed that removing explicit pairwise interactions
+slightly improved ROC-AUC and PR-AUC but slightly worsened log loss.
+Therefore, the explicit interaction component did not provide a
+clear advantage for this particular dataset.
 - Top MLP: 367 to 128 to 64 to 1
 - Sigmoid output for click probability (as prob b/e 0 and 1).
