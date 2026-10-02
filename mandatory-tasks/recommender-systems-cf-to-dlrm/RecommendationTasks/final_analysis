@@ -1,0 +1,58 @@
+## 8. Final Analysis
+
+### Why DLRM differs from the vanilla neural network
+
+The vanilla neural network learns feature relationships implicitly
+through its dense layers.
+
+DLRM explicitly represents categorical features using embeddings and
+calculates pairwise dot-product interactions between the feature
+representations before passing them to the top MLP.
+
+For this implementation:
+
+- 26 categorical features
+- 1 numerical representation
+- 27 total feature vectors
+- 351 pairwise interactions
+- 16-dimensional embeddings
+
+The explicit interaction design is particularly useful for
+recommendation problems where combinations of categorical features
+can carry information about user behaviour.
+
+### DLRM vs Matrix Factorization
+
+Matrix Factorization from Task 01 learns latent representations
+mainly for users and items and uses their interaction to predict
+ratings.
+
+DLRM is designed for a richer CTR setting with many categorical and
+numerical fields. It can represent multiple feature types and
+explicitly model interactions between them.
+
+### Computational considerations
+
+DLRM requires embedding tables for the categorical features and
+computes pairwise interactions between feature representations.
+
+For 27 feature vectors, this implementation calculates 351 pairwise
+interactions for every example.
+
+The embedding tables also contribute significantly to model memory,
+especially when categorical features have high cardinality.
+
+### Overall conclusion
+
+The experiments show that model architecture and regularization both
+matter for CTR prediction.
+
+The regularized vanilla neural network (NN-2) achieved the strongest
+validation metrics in this experiment. DLRM provided a more
+structured way to represent categorical feature interactions and
+performed better than the original unregularized neural network.
+
+However, the ablation indicates that explicit interactions did not
+provide a clear performance improvement on this particular dataset.
+This highlights that architectural complexity does not necessarily
+translate into better validation performance for every dataset.
