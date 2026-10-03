@@ -84,13 +84,30 @@ OBSERVATIONS :
 1. This time, training took a really long time per epoch(4), and the loss was definitely going down as well. But didn't have enough time to train for more epochs.
 
 OBSERVATIONS: 
+
 - LSTM trained for 4 epochs.
-- Training loss decreased consistently from 4.1930 → 3.0168.
-- Loss reduction was substantial across all four epochs, unlike the RNN, which stabilized around 4.01.
-- LSTM training took approximately 862 seconds (~14.4 minutes).
-- The LSTM required significantly more training time than the RNN, showing the additional computational cost of maintaining both hidden and cell states.
-- The lower training loss suggests that the LSTM is learning the training translation patterns more effectively than the basic RNN.
-- Quantitative translation quality still needs to be evaluated using BLEU before concluding generalization.
+- Training loss decreased consistently from 4.1930 to 3.0168.
+- LSTM BLEU on the test set: 0.05326.
+- BLEU increased substantially compared with the RNN baseline (0.00286 → 0.05326).
+- Unlike the RNN, the LSTM produced different outputs for different input sentences instead of collapsing to one repeated sequence.
+- Some generated translations captured parts of the input meaning and sentence structure.
+- <UNK> tokens remained frequent, showing that vocabulary limitations were still affecting generation.
+- Generated translations still contained grammatical errors, missing information, and incorrect phrases.
+- LSTM training took approximately 862 seconds (~14.4 minutes), making it more computationally expensive than the RNN.
+- Overall, the LSTM showed improved learning and test-set translation quality over the basic RNN under the same preprocessing and training setup.
+
+First of all the metric that you provided to us BBLEU (Bilingual Eval Understudy) is a lexical approach, right so it checks every word one by one and not the overall
+meaning of the sentence. This makes this eval metric pretty ppop for language-to-language generation. 
+
+LSTMS have both cell and hidden states with multiple gates, showing that it can learn intricacies of data much better. 
+
+## RNN vs LSTM Comparison
+
+- **Final training loss:** RNN = 4.0123, LSTM = 3.0168
+- **BLEU:** RNN = 0.00286, LSTM = 0.05326
+- **Output behavior:** RNN showed output collapse, while LSTM produced different outputs for different inputs.
+- **Training time:** RNN ≈ 10.1 minutes, LSTM ≈ 14.4 minutes
+- **Overall observation:** LSTM achieved lower training loss and substantially higher BLEU than the RNN, while requiring more training time.
    
   
   
