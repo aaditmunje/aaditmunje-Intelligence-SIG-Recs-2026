@@ -32,13 +32,13 @@ from the dataset:
 - Loaded the CMU Hinglish DoG dataset from Hugging Face.
 - Dataset splits: 8060 train, 942 validation, 960 test.
 - Retrieved the corresponding WikiData files from the original CMU DoG repository.
-- Built a mapping from `wikiDocumentIdx` to the corresponding Wikipedia document.
+- Built a mapping from `wikiDocumentIdx to the corresponding Wikipedia document.
 - Each Wikipedia document contains four sections with structured information such as movie name, introduction, cast, director, genre, rating, year, and critical response.
 - Combined the four sections into a single text representation for each grounding document.
 - Constructed training examples using the previous 3 dialogue turns as conversation history, the corresponding grounding document, and the next Hinglish turn as the target response.
 - Limited the grounding document to the first 120 words to keep the model input manageable.
 - Used custom Hinglish tokenization with lowercase conversion and punctuation separation.
-- Built the vocabulary using training data only, with special tokens `<PAD>`, `<SOS>`, `<EOS>`, and `<UNK>`.
+- Built the vocabulary using training data only, with special tokens <PAD>, <SOS>, <EOS>, and `<UNK>.
 - Vocabulary size was limited to 8000 tokens.
 - Set maximum lengths of 30 tokens for dialogue history, 80 tokens for documents, and 30 tokens for target responses.
 
@@ -50,8 +50,6 @@ from the dataset:
 
 3. I used a custom tokenizer and created a vocabulary from the training data only. I used special tokens PAD, SOS, EOS and UNK, with a maximum vocabulary size of 8000.
 
-4. I initially ran into a few notebook-state errors while setting up the model. `device` was not defined when creating the encoders, so I explicitly set it to CUDA when available. `DialogueDataset` was also not defined when creating the DataLoader, so I reran the class definition. These were pretty annoying and to debug i had to depend completely on LLMs (Thus the notebook is a little messy in that part).
+4. I initially ran into a few notebook-state errors while setting up the model. "device" was not defined when creating the encoders, so I explicitly set it to CUDA when available. "DialogueDataset" was also not defined when creating the DataLoader, so I reran the class definition. These were pretty annoying and to debug i had to depend completely on LLMs (Thus the notebook is a little messy in that part).
 
-5. After fixing the dataset class, `train_loader` was initially not defined because the DataLoader cell had not executed successfully. I recreated the train, validation and test DataLoaders in one cell to avoid further dependency issues.
-
-6. The decoder uses Luong-style attention over the combined encoder representations, allowing it to focus on relevant parts of both the dialogue history and the grounding document while generating the Hinglish response.
+5. The decoder uses Luong-style attention over the combined encoder representations, allowing it to focus on relevant parts of both the dialogue history and the grounding document while generating the Hinglish response.
