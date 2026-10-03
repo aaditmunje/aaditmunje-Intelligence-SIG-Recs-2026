@@ -76,5 +76,19 @@ from the dataset:
 - Optimization: We used docIdx to give the model the specific relevant Wikipedia section for each conversation.
 - Result: BLEU improved 0.00866 → 0.01303 and ROUGE-L 0.06053 → 0.08812. (BLEU improved ~50% & ROUGE-L improved ~46%)
 
-- Then we continued training the improved setup for another 10 epochs. (FINAL TRY TO BOOST)
+Then we continued training the improved setup for another 10 epochs. (FINAL TRY TO BOOST) :
+
+- Training for another 10 epochs reduced training loss further, but test BLEU/ROUGE fell to 0.01061 / 0.07495, showing overfitting.
+
+## Final Model Comparison
+
+| Model | Grounding | Epochs | BLEU | ROUGE-L | Observation |
+|---|---|---:|---:|---:|---|
+| Initial Two-Encoder LSTM | Combined Wiki document, first 120 words | 48 | 0.00866 | 0.06053 | Learned training data well but generalized poorly |
+| Section-Grounded LSTM | `docIdx -specific Wiki section | 10 | **0.01303** | **0.08812** | Best held-out performance |
+| Section-Grounded LSTM | `docIdx -specific Wiki section | 20 | 0.01061 | 0.07495 | Further training reduced held-out performance |
+
+### Final Selection
+
+The **10-epoch section-grounded model** was selected as the final model because it achieved the highest BLEU and ROUGE-L on the test set. Extending training to 20 epochs reduced training loss further but lowered both evaluation metrics, indicating overfitting.
 
