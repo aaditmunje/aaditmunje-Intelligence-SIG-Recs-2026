@@ -12,7 +12,7 @@ should also be able to state facts from the document when generating reply.
 3) When I started doing preprocessing, the first thing i noticed was that the dataset was giving me WikiDocIdx = 14 and docIdx=0, but not the actual WikiText
 in that particular row. So we needed to find eg for WikiIdx 14 -> Wiki article abt that movie -> Section 0 of article -> actual text.
 
-So basically found out that we cldnt use WikiDocIdx=14 directly, as 14 is NOT the doc itself, all its saying is go look up doc 14, docIdx=14 and use section 0
+So basically found out that we cldnt use WikiDocIdx=0 directly, as 14 is NOT the doc itself, all its saying is go look up doc 14, docIdx=14 and use section 0
 of that doc.
 
 3) Further, when i printed WikiData out it was evidend that it isnt just 1 big string. It's structured into fields like cast,plot etc. So we had to change our
@@ -41,3 +41,17 @@ from the dataset:
 - Built the vocabulary using training data only, with special tokens `<PAD>`, `<SOS>`, `<EOS>`, and `<UNK>`.
 - Vocabulary size was limited to 8000 tokens.
 - Set maximum lengths of 30 tokens for dialogue history, 80 tokens for documents, and 30 tokens for target responses.
+
+# Data Understanding, Preprocessing & Design Decisions
+
+1. After combining the WikiData fields, I checked the document sizes. The documents were roughly 500-900 words long, so I decided to truncate the grounding document to 120 words to keep the model input and training manageable.
+
+2. I then constructed training examples using the previous 3 dialogue turns as the conversation history, the corresponding WikiData document as the grounding input, and the next Hinglish turn as the target response.
+
+3. I used a custom tokenizer and created a vocabulary from the training data only. I used special tokens PAD, SOS, EOS and UNK, with a maximum vocabulary size of 8000.
+
+4. I initially ran into a few notebook-state errors while setting up the model. `device` was not defined when creating the encoders, so I explicitly set it to CUDA when available. `DialogueDataset` was also not defined when creating the DataLoader, so I reran the class definition. These were pretty annoying and to debug i had to depend completely on LLMs (Thus the notebook is a little messy in that part).
+
+5. After fixing the dataset class, `train_loader` was initially not defined because the DataLoader cell had not executed successfully. I recreated the train, validation and test DataLoaders in one cell to avoid further dependency issues.
+
+6. The decoder uses Luong-style attention over the combined encoder representations, allowing it to focus on relevant parts of both the dialogue history and the grounding document while generating the Hinglish response.
