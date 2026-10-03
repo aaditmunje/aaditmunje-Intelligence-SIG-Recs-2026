@@ -76,7 +76,7 @@ Overall, the experiments showed progressive improvement from RNN → LSTM → LS
 | RNN | 0.00286 | 4.0123 |
 | LSTM | 0.05326 | 3.0168 |
 | LSTM + Luong Attention | 0.15913 | 2.4944 |
-| LSTM + Luong Attention + Beam Search | TBD | 2.4944 |
+| LSTM + Luong Attention + Beam Search | 0.172 | 2.4944 |
 
 
 
