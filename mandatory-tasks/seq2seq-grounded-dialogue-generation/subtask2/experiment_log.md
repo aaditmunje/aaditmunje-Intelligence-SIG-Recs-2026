@@ -51,10 +51,33 @@ So why the 30-step change :
 - <UNK> tokens were still frequent, and some generated phrases remained incorrect or incomplete.
 - The results suggest that explicitly attending to encoder outputs improved translation quality compared with relying only on the final encoder state.
 - Total training time: 1238.19 sec (~20.6 min).
-- Attention training was substantially slower because attention was recalculated at each decoder timestep.
-- Maximum attention training length was limited to 30 tokens for computational efficiency.
-- Final loss was lower than the LSTM baseline's 3.0168, indicating stronger fitting of the training data.
 
-This is still on training data right, so test-set BLEU is still needed to determine whether this improvement translated to better generalization.
+This is still on training data, right, so test-set BLEU is still needed to determine whether this improvement translated to better generalization.
+
+## Final Conclusion
+
+- The basic RNN encoder-decoder achieved a BLEU score of 0.00286 and showed clear output collapse, producing nearly the same prediction for different inputs.
+- Replacing the RNN with an LSTM reduced the final training loss from 4.0123 to 3.0168 and improved BLEU to 0.05326.
+- The LSTM also produced more input-dependent translations, although `<UNK>` tokens and incorrect phrases remained common.
+- Adding Luong dot-product attention further improved BLEU to 0.15913, compared with 0.05326 for the LSTM without attention.
+- Attention allowed the decoder to use information from different encoder hidden states instead of relying only on the final encoder state.
+- The attention model produced more source-specific translations and captured more parts of the input meaning, although translations were still imperfect.
+- Greedy decoding was used as the main decoding strategy for the reported attention BLEU score.
+- Beam search with beam width 3 was additionally tested qualitatively. The generated outputs were not consistently better than greedy decoding across the examples tested.
+- Maximum attention training length was limited to 30 tokens for computational efficiency.
+
+
+Overall, the experiments showed progressive improvement from RNN → LSTM → LSTM with attention, while also demonstrating the computational cost and remaining vocabulary limitations of the baseline system. The final loss was lower than the LSTM baseline's 3.0168, indicating stronger fitting of the training data.
+
+## Model Comparison (Table made using LLLMs)
+
+| Model | BLEU | Final Training Loss |
+|---|---:|---:|
+| RNN | 0.00286 | 4.0123 |
+| LSTM | 0.05326 | 3.0168 |
+| LSTM + Luong Attention | 0.15913 | 2.4944 |
+| LSTM + Luong Attention + Beam Search | TBD | 2.4944 |
+
+
 
   
