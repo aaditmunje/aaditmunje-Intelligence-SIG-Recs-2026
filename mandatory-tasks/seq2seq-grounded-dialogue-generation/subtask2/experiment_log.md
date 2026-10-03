@@ -47,9 +47,6 @@ So why the 30-step change :
 - Maximum attention training length was limited to 30 tokens to reduce computational cost.
 - LSTM + Luong Attention achieved a BLEU score of 0.15913.
 - BLEU improved from 0.05326 without attention to 0.15913 with attention.
-- Generated translations became more input-dependent and captured more source information.
-- <UNK> tokens were still frequent, and some generated phrases remained incorrect or incomplete.
-- The results suggest that explicitly attending to encoder outputs improved translation quality compared with relying only on the final encoder state.
 - Total training time: 1238.19 sec (~20.6 min).
 
 This is still on training data, right, so test-set BLEU is still needed to determine whether this improvement translated to better generalization.
@@ -61,15 +58,12 @@ This is still on training data, right, so test-set BLEU is still needed to deter
 - The LSTM also produced more input-dependent translations, although `<UNK>` tokens and incorrect phrases remained common.
 - Adding Luong dot-product attention further improved BLEU to 0.15913, compared with 0.05326 for the LSTM without attention.
 - Attention allowed the decoder to use information from different encoder hidden states instead of relying only on the final encoder state.
-- The attention model produced more source-specific translations and captured more parts of the input meaning, although translations were still imperfect.
 - Greedy decoding was used as the main decoding strategy for the reported attention BLEU score.
-- Beam search with beam width 3 was additionally tested qualitatively. The generated outputs were not consistently better than greedy decoding across the examples tested.
-- Maximum attention training length was limited to 30 tokens for computational efficiency.
-
+- Beam search with beam width 3 was additionally tested qualitatively. The generated outputs were not consistently better than greedy decoding across the examples tested. Here, I got BLEU as 0.172 (slightly lower)
 
 Overall, the experiments showed progressive improvement from RNN → LSTM → LSTM with attention, while also demonstrating the computational cost and remaining vocabulary limitations of the baseline system. The final loss was lower than the LSTM baseline's 3.0168, indicating stronger fitting of the training data.
 
-## Model Comparison (Table made using LLLMs)
+## Model Comparison (Table made using LLMs)
 
 | Model | BLEU | Final Training Loss |
 |---|---:|---:|
