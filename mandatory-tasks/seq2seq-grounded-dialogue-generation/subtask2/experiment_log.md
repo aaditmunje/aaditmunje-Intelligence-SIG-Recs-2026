@@ -37,10 +37,24 @@ So why the 30-step change :
 
 - Luong attention model trained for 4 epochs.
 - Training loss decreased consistently: 4.1199 → 3.1436 → 2.7383 → 2.4944.
+
+## Attention Results
+
+- Added Luong dot-product attention to the LSTM encoder-decoder.
+- Attention model trained for 4 epochs.
+- Training loss decreased from 4.1199 to 2.4944.
+- Training time was approximately 20.6 minutes.
+- Maximum attention training length was limited to 30 tokens to reduce computational cost.
+- LSTM + Luong Attention achieved a BLEU score of 0.15913.
+- BLEU improved from 0.05326 without attention to 0.15913 with attention.
+- Generated translations became more input-dependent and captured more source information.
+- <UNK> tokens were still frequent, and some generated phrases remained incorrect or incomplete.
+- The results suggest that explicitly attending to encoder outputs improved translation quality compared with relying only on the final encoder state.
 - Total training time: 1238.19 sec (~20.6 min).
 - Attention training was substantially slower because attention was recalculated at each decoder timestep.
 - Maximum attention training length was limited to 30 tokens for computational efficiency.
 - Final loss was lower than the LSTM baseline's 3.0168, indicating stronger fitting of the training data.
-- Test-set BLEU is needed to determine whether this improvement translated to better generalization.
 
-2
+This is still on training data right, so test-set BLEU is still needed to determine whether this improvement translated to better generalization.
+
+  
