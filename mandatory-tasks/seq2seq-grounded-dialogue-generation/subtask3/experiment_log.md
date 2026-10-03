@@ -64,17 +64,17 @@ from the dataset:
 
 - I made a major error during the evaluation part. Basically i was ready to train the epochs in checkpoints and then evaluate the loss and BLEU-ROUGE incrementally.
 
-- But i kinda lost track of the BLEU-ROUGE-L nd just kept on optimizing the loss till it reached the minimum. 
+- But i kinda lost track of the BLEU-ROUGE and just kept on optimizing the loss till it reached the minimum. 
 
-- What i didnt realize is that at such low losses the model probably learnt the intricacies and the noise so the model improved. So yeah kinda screwed up in that part.
+- What I didn't realize is that at such low losses, the model probably learnt the intricacies and the noise, thus the model improved. It clearly overfitted.  So yeah kinda screwed up in that part.
 
 - My checkpoints were: (epochs) 10 - 20 - 50 - 50 - 50. Now each set took like 20 mins each depending on size so i didnt really have time to retrain everything again imma be honest. So just thought of optimizing as much as i can. 
 
 - For optimizing further without retraining i did - 
 
 - Problem: We were feeding the model the first 120 words of the entire combined Wikipedia document.
-Optimization: We used docIdx to give the model the specific relevant Wikipedia section for each conversation.
-Result: BLEU improved 0.00866 → 0.01303 and ROUGE-L 0.06053 → 0.08812. (BLEU improved ~50% & ROUGE-L improved ~46%)
+- Optimization: We used docIdx to give the model the specific relevant Wikipedia section for each conversation.
+- Result: BLEU improved 0.00866 → 0.01303 and ROUGE-L 0.06053 → 0.08812. (BLEU improved ~50% & ROUGE-L improved ~46%)
 
 - Then we continued training the improved setup for another 10 epochs. (FINAL TRY TO BOOST)
 
