@@ -53,3 +53,9 @@ from the dataset:
 4. I initially ran into a few notebook-state errors while setting up the model. "device" was not defined when creating the encoders, so I explicitly set it to CUDA when available. "DialogueDataset" was also not defined when creating the DataLoader, so I reran the class definition. These were pretty annoying and to debug i had to depend completely on LLMs (Thus the notebook is a little messy in that part).
 
 5. The decoder uses Luong-style attention over the combined encoder representations, allowing it to focus on relevant parts of both the dialogue history and the grounding document while generating the Hinglish response.
+
+# Training
+
+- After the initial 6 epochs, the model was still undertrained and produced repetitive outputs.
+- Since the training loss was continuing to decrease, I continued training with checkpointing rather than immediately changing the architecture.
+- Checkpoints were saved after each additional epoch to allow comparison at different training stages.
