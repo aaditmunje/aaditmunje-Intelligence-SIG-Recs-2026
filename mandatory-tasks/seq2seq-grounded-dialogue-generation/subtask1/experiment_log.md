@@ -76,9 +76,22 @@ OBSERVATIONS :
 - These results motivate comparing the RNN with an LSTM encoder-decoder in Experiment 2.
 
 - I genuinely ran into a lot of errors when using RNNs, not just because of the core bottleneck, but even optimising the dataset up to this point took forever.
-  Every training epoch took so long that atleast for the time being ive decided to stop trying to optimize, record the observations, and move ahead with LSTMS and
+  Every training epoch took so long that at least for the time being I've decided to stop trying to optimize, record the observations, and move ahead with LSTMS and
   hopefully get better results (3:30 AM insights lol).
 
+# EXPERIMENT 2 - LSTMS
+
+1. This time, training took a really long time per epoch(4), and the loss was definitely going down as well. But didn't have enough time to train for more epochs.
+
+OBSERVATIONS: 
+- LSTM trained for 4 epochs.
+- Training loss decreased consistently from 4.1930 → 3.0168.
+- Loss reduction was substantial across all four epochs, unlike the RNN, which stabilized around 4.01.
+- LSTM training took approximately 862 seconds (~14.4 minutes).
+- The LSTM required significantly more training time than the RNN, showing the additional computational cost of maintaining both hidden and cell states.
+- The lower training loss suggests that the LSTM is learning the training translation patterns more effectively than the basic RNN.
+- Quantitative translation quality still needs to be evaluated using BLEU before concluding generalization.
+   
   
   
 
