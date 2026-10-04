@@ -253,7 +253,14 @@ Some duplicate images and titles are strong indicators of a match, but neither i
 
 Because of this, a useful matching system will likely need to combine information from both the **product title and the product image**, while handling noisy text, reused images and visually similar products.
 
-So basically this is a very noisy dataset and a lot of feature selection and feature engineering will need to be done to properly get a good accuracy. 
+So basically, this is a very noisy dataset, and a lot of feature selection and feature engineering will need to be done to properly get good accuracy. 
+
+## References
+- scikit-learn's TfidfVectorizer documentation — implementation reference.
+- Reimers & Gurevych, “Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks” — basis for the embedding approach.
+- Attention Is All You Need (Just for attention references)
+- paraphrase-multilingual-MiniLM-L12-v2 model card — pretrained multilingual model used in the experiment; it supports 50 languages.
+
 
 
 
