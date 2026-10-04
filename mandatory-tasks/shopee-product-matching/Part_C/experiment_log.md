@@ -35,3 +35,8 @@
 - Image embeddings provide a way to represent visual information numerically so that two product images can be compared using a similarity metric.
 - Large-scale embedding extraction should be performed in batches, preferably on GPU, rather than processing images individually.
 - Actual matching performance and threshold selection will be documented after the ResNet18 experiment is completed.
+
+- Extracted a 512-dimensional ResNet18 embedding for each of the 32,412 unique training images.
+- Embeddings were generated in batches on GPU rather than processing images individually.
+- Embeddings were L2-normalized so cosine similarity can be computed efficiently using the dot product.
+- Final embedding matrix shape: (32,412, 512).
