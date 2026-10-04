@@ -118,6 +118,15 @@ The improvement over word-level TF-IDF suggests that character-level features ar
 
 The multilingual embedding model performed worse than both TF-IDF approaches. This was useful because it showed that a more sophisticated semantic representation is not automatically better for this problem. In these titles, exact product-specific lexical information appears to be more important than general semantic similarity.
 
+## References
+- scikit-learn's TfidfVectorizer documentation — implementation reference.
+- Reimers & Gurevych, “Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks” — basis for the embedding approach.
+- Attention Is All You Need (Just for attention references)
+- paraphrase-multilingual-MiniLM-L12-v2 model card — pretrained multilingual model used in the experiment; it supports 50 languages.
+
+
+
+
 However, the false-negative examples also showed that text alone cannot solve every case. Some listings of the same product have very different or incomplete titles. This suggests that a stronger product matching system should eventually combine textual and visual information.
 
 
