@@ -23,3 +23,102 @@
 
 - The False negatives (61) showed that the same product can have completely different/noisy seller titles.
 
+# Experiment Log — Part B
+
+## 1. Implementation
+
+Created a binary matching dataset from the Shopee training data.
+
+- `1` = two listings belong to the same `label_group`
+- `0` = two listings belong to different `label_group`s
+- Product groups were split into train, validation and test before creating pairs to avoid product-level leakage.
+- The resulting pairs were balanced between matches and non-matches.
+
+Three approaches were tested:
+
+1. Word-level TF-IDF baseline
+2. Character-level TF-IDF
+3. Multilingual sentence embeddings
+
+Cosine similarity were used for all three approaches. Thresholds were selected using the validation set and final performance was measured on the held-out test set.
+
+## 2. Results
+
+| Experiment | F1 |
+|---|---:|
+| Word TF-IDF | 0.9690 |
+| Character TF-IDF | **0.9791** |
+| Multilingual embeddings | 0.9098 |
+
+Character TF-IDF gave the best result.
+
+## 3. Relevant experiments
+
+### Baseline — Word TF-IDF
+
+Used word and two-word features with cosine similarity.
+
+Result:
+- Precision: 0.9943
+- Recall: 0.9449
+- F1: 0.9690
+- Threshold: 0.10
+
+### Experiment 1 — Character TF-IDF
+
+Used character n-grams from 3 to 5 characters.
+
+Result:
+- Precision: 0.9956
+- Recall: 0.9631
+- F1: 0.9791
+- Threshold: 0.10
+
+### Experiment 2 — Multilingual Sentence Embeddings
+
+Used the pretrained `paraphrase-multilingual-MiniLM-L12-v2` model.
+
+Result:
+- Precision: 0.9228
+- Recall: 0.8972
+- F1: 0.9098
+- Threshold: 0.40
+
+## 4. Observations and conclusions
+
+Character-level TF-IDF performed better than word-level TF-IDF. This suggests that character-level information is useful for handling spelling variations, abbreviations and product-specific strings.
+
+The multilingual embedding model performed worse than both TF-IDF approaches. This suggests that general semantic similarity was less useful than fine-grained lexical information for these product titles.
+
+Error analysis showed that false positives were usually caused by unrelated products sharing common keywords. False negatives occurred when listings of the same product had very different or incomplete titles.
+
+The main limitation of the text-only approach is therefore that some products cannot be matched reliably from their titles alone. Image information could help with these cases.
+
+- ## Results
+
+| Experiment | Representation | Similarity | Threshold | Precision | Recall | F1 |
+|---|---|---|---:|---:|---:|---:|
+| Baseline | Word TF-IDF (1–2 grams) | Cosine | 0.10 | 0.9943 | 0.9449 | 0.9690 |
+| Experiment 1 | Character TF-IDF (3–5 grams) | Cosine | 0.10 | 0.9956 | 0.9631 | **0.9791** |
+| Experiment 2 | Multilingual Sentence Embeddings | Cosine | 0.40 | 0.9228 | 0.8972 | 0.9098 |
+
+Character-level TF-IDF performed the best on the held-out test pairs.
+
+The character-level model improved F1 from 0.9690 for the word-level baseline to 0.9791. The multilingual sentence embedding model performed worse, with an F1 of 0.9098.
+
+This suggests that fine-grained lexical information was more useful for these product titles than general semantic similarity. Product titles contain many product-specific details such as model names, sizes, abbreviations, spelling variations and keywords, which character-level features can capture well.
+
+## Conclusion
+
+I started with word-level TF-IDF as the baseline and then tested character-level TF-IDF and pretrained multilingual sentence embeddings.
+
+The character-level TF-IDF model performed best with an F1 score of 0.9791.
+
+The improvement over word-level TF-IDF suggests that character-level features are useful for this dataset because product titles contain spelling variations, abbreviations, product codes and other noisy text.
+
+The multilingual embedding model performed worse than both TF-IDF approaches. This was useful because it showed that a more sophisticated semantic representation is not automatically better for this problem. In these titles, exact product-specific lexical information appears to be more important than general semantic similarity.
+
+However, the false-negative examples also showed that text alone cannot solve every case. Some listings of the same product have very different or incomplete titles. This suggests that a stronger product matching system should eventually combine textual and visual information.
+
+
+
