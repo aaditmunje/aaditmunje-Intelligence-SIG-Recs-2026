@@ -1,52 +1,68 @@
-## Experiment — Text/Image Weight Fusion
+# Experiment Log — Finale: Multimodal Product Matching
 
-### Hypothesis
+## 1. Setup
 
-So i looked at a lot of solutions using different boosting, bagging and various ensemble techniques. But, when i looked at the parts B,C we had already gotten
-like 90+% F1 score for both. So i thought why not just play with both of their similarity scores and get a good prediction model.
+For the Finale, I built a multimodal product matching system using the text and image approaches I developed in Parts B and C. I also investigated whether the `image_phash` field could provide an additional signal.
 
-Since text was stronger than image individually, I expected the final system to benefit from giving text a higher weight while still using visual information.
+The dataset contains **34,250 listings** and **32,412 unique images**.
 
-### Experiment
+I kept the same group-based evaluation idea from Parts B and C so that listings from the same `label_group` were not split across train, validation, and test sets.
 
-I tested different combinations of character TF-IDF similarity and ResNet50 image similarity. For each combination, the matching threshold was selected using validation F1.
-
-### Results
-
-| Text Weight | Image Weight | Validation F1 | Test F1 |
-|---:|---:|---:|---:|
-| 0.10 | 0.90 | 0.9442 | 0.9475 |
-| 0.25 | 0.75 | 0.9648 | 0.9639 |
-| 0.50 | 0.50 | 0.9842 | 0.9802 |
-| **0.75** | **0.25** | **0.9909** | **0.9881** |
-| 0.90 | 0.10 | 0.9903 | 0.9854 |
-
-### Observation
-
-Giving more weight to text consistently improved performance because character-level TF-IDF was the stronger individual modality. However, the best validation result was obtained with **75% text and 25% image**, showing that the image signal still provided useful additional information.
-
-### Conclusion
-
-The **75:25 text-to-image combination** was selected as the best multimodal configuration based on validation F1.
-
-## Final Model
-
-The final model combines character-level TF-IDF, ResNet50 image similarity, and image pHash agreement.
-
-| Component | Weight |
+| Split | Listings |
 |---|---:|
-| Character TF-IDF | 0.60 |
-| ResNet50 | 0.20 |
-| pHash | 0.20 |
+| Train | 23,629 |
+| Validation | 5,189 |
+| Test | 5,432 |
 
-The final matching threshold was **0.14**, selected using validation F1.
+For evaluation, I created balanced positive and negative pairs:
 
-### Final Results
+- Positive pair: both listings belong to the same `label_group`
+- Negative pair: listings belong to different `label_group`
 
-| Metric | Validation | Test |
-|---|---:|---:|
-| F1 | 0.9915 | **0.9884** |
-| Precision | — | **0.9957** |
-| Recall | — | **0.9812** |
+| Split | Pairs | Positive | Negative |
+|---|---:|---:|---:|
+| Validation | 3,304 | 1,652 | 1,652 |
+| Test | 3,306 | 1,653 | 1,653 |
 
-The final system achieved a test F1 of **0.9884**. Text was the strongest individual signal, while image similarity provided complementary visual information. Adding pHash produced a small additional improvement.
+For every pair, I calculated:
+
+- Character TF-IDF cosine similarity
+- ResNet50 image cosine similarity
+- pHash agreement
+
+I selected thresholds and fusion weights using the validation set and used the test set only for the final evaluation.
+
+---
+
+## 2. Implementation
+
+### Text Representation
+
+I reused the best text approach from Part B:
+
+- Character-level TF-IDF
+- Character n-grams: `(3, 5)`
+- `min_df=2`
+- Cosine similarity
+
+I chose character TF-IDF because it performed better than both word-level TF-IDF and multilingual sentence embeddings in Part B.
+
+### Image Representation
+
+I reused the best image model from Part C:
+
+- Pretrained ResNet50
+- Final classification layer removed
+- 2048-dimensional image embeddings
+- L2 normalization
+- Cosine similarity
+
+I generated an embedding once for each unique image and reused it for all pair comparisons.
+
+### pHash
+
+I used `image_phash` as a binary additional signal:
+
+```text
+1 → both listings have the same pHash
+0 → pHash values are different
