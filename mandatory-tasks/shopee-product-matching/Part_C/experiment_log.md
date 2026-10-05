@@ -74,6 +74,34 @@ ResNet50 performed better and was selected as the stronger image-based model.
 
 For ResNet18, there were **114 false positives** and **197 false negatives** at the 0.70 threshold.
 
+## 4. Experiment 3 — CLIP (Contrastive Lang Image Processing)
+
+I thought of using CLIP in place of all other models as it learns how images and text relate to each other,
+so i thought for this noisy dataset it would give a good score and could be compared with ResNet models.
+
+- Used pretrained CLIP ViT-B/32 as a vision-language representation.
+- Extracted 512-D image embeddings for the same 32,412 images.
+- Used the same image pairs and evaluation procedure as the ResNet experiments.
+- Best validation threshold: 0.60.
+
+| Metric | Validation | Test |
+|---|---:|---:|
+| Precision | — | 0.9211 |
+| Recall | — | 0.9177 |
+| F1 | — | **0.9194** |
+
+CLIP performed better than ResNet18 but slightly below ResNet50. It had a more balanced precision-recall trade-off, while ResNet50 achieved the highest overall F1.
+
+## 5. Final Comparison
+
+| Model | Embedding | Threshold | Precision | Recall | F1 |
+|---|---:|---:|---:|---:|---:|
+| ResNet18 | 512-D | 0.70 | 0.9274 | 0.8808 | 0.9036 |
+| ResNet50 | 2048-D | 0.45 | 0.9477 | 0.8996 | **0.9230** |
+| CLIP | 512-D | 0.60 | 0.9211 | 0.9177 | 0.9194 |
+
+ResNet50 was selected as the final image-based model because it achieved the highest test F1.
+
 - **False positives:** Different products sometimes looked very similar. For example, a hand sanitizer and a skincare serum had a similarity of 0.83 because both were white pump bottles on a plain background.
 - **False negatives:** The same product could be shown very differently. One pair of alphabet-letter products had a similarity of only 0.47, while another same-group pair had a normal product photo and a text/price image with a similarity of 0.48.
 
