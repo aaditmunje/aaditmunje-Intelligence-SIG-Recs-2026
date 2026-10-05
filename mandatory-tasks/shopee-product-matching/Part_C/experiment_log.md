@@ -38,6 +38,22 @@
 
 ResNet18 gave 114 false positives and 197 false negatives at the 0.70 threshold.
 
+### ResNet50 Experiment
+
+- Used pretrained ResNet50 with the final classification layer removed.
+- Extracted 2048-D embeddings for the same 32,412 images.
+- Used the same image pairs and evaluation procedure as ResNet18.
+- Best validation threshold was 0.45.
+
+| Metric | Validation | Test |
+|---|---:|---:|
+| Threshold | 0.45 | 0.45 |
+| Precision | 0.9477 | 0.9477 |
+| Recall | 0.9198 | 0.8996 |
+| F1 | 0.9198 | **0.9230** |
+
+ResNet50 improved test F1 from 0.9036 to 0.9230 compared to ResNet18. The larger model produced more useful visual representations for this matching task, although it also required more computation and a different similarity threshold.
+
 For false positives, I noticed that different products can look very similar. For example, a hand sanitizer and a skincare serum had a similarity of 0.83 because both were white pump bottles on a plain background. A hand sanitizer and Vitamin D3 bottle also got 0.82.
 
 For false negatives, the main issue was that the same product could be shown very differently. One pair of alphabet-letter products had a similarity of only 0.47 even though they belonged to the same group. Another pair had one normal product photo and one text/price image, giving a similarity of 0.48.
