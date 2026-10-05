@@ -63,6 +63,20 @@ I generated an embedding once for each unique image and reused it for all pair c
 
 I used `image_phash` as a binary additional signal:
 
-```text
 1 → both listings have the same pHash
 0 → pHash values are different
+
+# 11. Conclusion
+
+In this Finale, I started with the text and image matching approaches from the previous parts and investigated whether they could work better together.
+
+The experiments showed that the **text representation was the strongest individual signal**. Character-level TF-IDF achieved a test F1 of **0.9799**, while the ResNet50 image representation achieved **0.9279**. However, the image information was still useful when combined with text.
+
+A simple 50/50 fusion gave a test F1 of **0.9802**, but the weight experiment showed that equal weighting was not optimal. Giving more importance to text improved the result, with the **75% text + 25% image** configuration achieving a validation F1 of **0.9909** and a test F1 of **0.9881**.
+
+I then investigated whether the perceptual hash could provide additional information. Adding pHash produced the best validation result with the following configuration:
+
+Character TF-IDF : 60%
+ResNet50         : 20%
+pHash            : 20%
+Threshold        : 0.14
