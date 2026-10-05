@@ -106,3 +106,29 @@ ResNet50 was selected as the final image-based model because it achieved the hig
 - **False negatives:** The same product could be shown very differently. One pair of alphabet-letter products had a similarity of only 0.47, while another same-group pair had a normal product photo and a text/price image with a similarity of 0.48.
 
 This showed that ResNet18 captures visual appearance well, but visual similarity does not always mean the products are actually the same.
+
+## Questions and Answers
+
+### 1. What information does an image embedding capture?
+
+An image embedding converts visual information such as shapes, colors, textures, patterns, and overall appearance into a numerical representation that can be compared between images.
+
+### 2. Why can the same product have different embeddings?
+
+The same product can look different because of changes in angle, lighting, background, cropping, image quality, or promotional/text-heavy images.
+
+### 3. Why can different products have highly similar embeddings?
+
+Different products can have similar shapes, colors, packaging, or photography styles, causing their visual embeddings to be close even though they are different products.
+
+### 4. Which similarity metric works best?
+
+I used **cosine similarity** because the embeddings were L2-normalized. It measures the direction between embeddings rather than their magnitude.
+
+### 5. How does the threshold affect matching results?
+
+A lower threshold increases recall but can create more false positives. A higher threshold increases precision but can miss genuine matches. I selected the threshold using validation F1.
+
+### 6. What are the computational challenges?
+
+Comparing every image with every other image requires **O(N²)** pairwise comparisons. To reduce this cost, I generated each image embedding only once and reused the embeddings for similarity calculations. For larger datasets, nearest-neighbor search could be used.
