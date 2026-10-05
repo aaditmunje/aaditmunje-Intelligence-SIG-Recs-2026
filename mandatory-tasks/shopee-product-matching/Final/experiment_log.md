@@ -28,3 +28,25 @@ Giving more weight to text consistently improved performance because character-l
 ### Conclusion
 
 The **75:25 text-to-image combination** was selected as the best multimodal configuration based on validation F1.
+
+## Final Model
+
+The final model combines character-level TF-IDF, ResNet50 image similarity, and image pHash agreement.
+
+| Component | Weight |
+|---|---:|
+| Character TF-IDF | 0.60 |
+| ResNet50 | 0.20 |
+| pHash | 0.20 |
+
+The final matching threshold was **0.14**, selected using validation F1.
+
+### Final Results
+
+| Metric | Validation | Test |
+|---|---:|---:|
+| F1 | 0.9915 | **0.9884** |
+| Precision | — | **0.9957** |
+| Recall | — | **0.9812** |
+
+The final system achieved a test F1 of **0.9884**. Text was the strongest individual signal, while image similarity provided complementary visual information. Adding pHash produced a small additional improvement.
